@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pico colorlight controller</title>
+
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#f48fb1">
+    <meta name="description" content="Raspberry Pi Pico W ライトコントローラー">
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192x192.png">
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌈Pico colorlight controller🌈</h1>
+        </header>
+
+        <main>
+            <!-- 接続状態 -->
+            <section class="connection-section">
+                <div class="connection-header">
+                    <span class="device-count">接続済み: <strong id="connectedCount">0</strong>台</span>
+                    <button id="connectBtn" class="btn btn-primary">ライトを追加</button>
+                </div>
+            </section>
+
+            <!-- 接続済みデバイス一覧 -->
+            <section class="devices-section" id="devicesSection" style="display: none;">
+                <div id="devicesList" class="devices-list"></div>
+            </section>
+
+            <!-- コントロール -->
+            <section class="control-section" id="controlSection" style="display: none;">
+                <!-- 制御対象選択 -->
+                <div class="target-selection">
+                    <h2>制御対象</h2>
+                    <div class="target-buttons">
+                        <button id="targetAllBtn" class="btn btn-target active" data-target="all">全デバイス</button>
+                        <button id="targetGroupBtn" class="btn btn-target" data-target="group">グループ</button>
+                        <button id="targetIndividualBtn" class="btn btn-target" data-target="individual">個別</button>
+                    </div>
+
+                    <!-- グループ選択 -->
+                    <div id="groupSelection" class="selection-panel" style="display: none;">
+                        <label>グループを選択:</label>
+                        <div class="group-buttons" id="groupButtons">
+                            <button class="btn btn-group" data-group="A">グループA</button>
+                            <button class="btn btn-group" data-group="B">グループB</button>
+                            <button class="btn btn-group" data-group="C">グループC</button>
+                        </div>
+                    </div>
+
+                    <!-- 個別デバイス選択 -->
+                    <div id="individualSelection" class="selection-panel" style="display: none;">
+                        <label>デバイスを選択:</label>
+                        <div class="individual-buttons" id="individualButtons"></div>
+                    </div>
+                </div>
+
+                <!-- モード選択 -->
+                <div class="mode-selection">
+                    <h2>制御モード</h2>
+                    <div class="mode-buttons">
+                        <button id="colorModeBtn" class="btn btn-mode active">色選択モード</button>
+                        <button id="autoModeBtn" class="btn btn-mode">自動制御モード</button>
+                        <button id="musicModeBtn" class="btn btn-mode">音楽連動モード</button>
+                    </div>
+                </div>
+
+                <!-- 色選択モード -->
+                <div class="color-mode" id="colorMode">
+                    <!-- カラープレビュー（大きく表示） -->
+                    <div class="color-preview-main" id="colorPreview"></div>
+                    <div class="color-value-display">
+                        <input type="text" id="colorValue" value="#ff0000" maxlength="7" pattern="^#[0-9A-Fa-f]{6}$" placeholder="#FF00FF">
+                    </div>
+
+                    <!-- 色相スライダー -->
+                    <div class="hue-slider-container">
+                        <input type="range" id="hueSlider" min="0" max="360" value="0" class="color-slider hue-slider">
+                    </div>
+
+                    <!-- プリセット色 -->
+                    <div class="preset-colors">
+                        <h4>よく使う色</h4>
+                        <div class="preset-grid">
+                            <button class="preset-color" data-color="#ff0000" style="background-color: #ff0000;" title="赤"></button>
+                            <button class="preset-color" data-color="#ffa500" style="background-color: #ffa500;" title="オレンジ"></button>
+                            <button class="preset-color" data-color="#ffff00" style="background-color: #ffff00;" title="黄色"></button>
+                            <button class="preset-color" data-color="#00c957" style="background-color: #00c957;" title="エメラルドグリーン"></button>
+                            <button class="preset-color" data-color="#00ff00" style="background-color: #00ff00;" title="緑"></button>
+                            <button class="preset-color" data-color="#0000ff" style="background-color: #0000ff;" title="青"></button>
+                            <button class="preset-color" data-color="#8000ff" style="background-color: #8000ff;" title="紫"></button>
+                            <button class="preset-color" data-color="#ff00ff" style="background-color: #ff00ff;" title="マゼンタ"></button>
+                            <button class="preset-color" data-color="#00ffff" style="background-color: #00ffff;" title="シアン"></button>
+                            <button class="preset-color" data-color="#ffffff" style="background-color: #ffffff;" title="白"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 自動制御モード -->
+                <div class="auto-mode" id="autoMode" style="display: none;">
+                    <div class="pattern-selection">
+                        <div class="pattern-option">
+                            <input type="radio" id="pattern1" name="pattern" value="1" checked>
+                            <label for="pattern1">パターン1: 順次変化 <span class="pattern-desc">(赤→橙→黄→緑→青→紫→ピンク)</span></label>
+                        </div>
+                        <div class="pattern-option">
+                            <input type="radio" id="pattern2" name="pattern" value="2">
+                            <label for="pattern2">パターン2: 点滅 <span class="pattern-desc">(各色で点滅しながら変化)</span></label>
+                        </div>
+                        <div class="pattern-option">
+                            <input type="radio" id="pattern3" name="pattern" value="3">
+                            <label for="pattern3">パターン3: 虹色グラデーション <span class="pattern-desc">(滑らかな変化)</span></label>
+                        </div>
+                    </div>
+                    <div class="auto-controls">
+                        <button id="startAutoBtn" class="btn btn-success">自動制御開始</button>
+                        <button id="stopAutoBtn" class="btn btn-danger" style="display: none;">自動制御停止</button>
+                    </div>
+                </div>
+
+                <!-- 音楽連動モード -->
+                <div class="music-mode" id="musicMode" style="display: none;">
+                    <div class="music-controls">
+                        <button id="startMusicBtn" class="btn btn-success">音楽連動開始</button>
+                        <button id="stopMusicBtn" class="btn btn-danger" style="display: none;">音楽連動停止</button>
+                    </div>
+
+                    <div class="music-settings" id="musicSettings" style="display: none;">
+                        <h3>音量レベル</h3>
+                        <div class="volume-meter">
+                            <div class="volume-bar" id="volumeBar"></div>
+                        </div>
+
+                        <h3>感度調整</h3>
+                        <div class="sensitivity-control">
+                            <input type="range" id="sensitivitySlider" min="1" max="10" value="5" class="sensitivity-slider">
+                            <span id="sensitivityValue">5</span>
+                        </div>
+
+                        <h3>エフェクトモード</h3>
+                        <div class="music-effect-mode">
+                            <div class="effect-option">
+                                <input type="radio" id="effectBrightness" name="musicEffect" value="brightness" checked>
+                                <label for="effectBrightness">明るさ変化 <span class="effect-desc">(単色で明るさが変化)</span></label>
+                            </div>
+                            <div class="effect-option">
+                                <input type="radio" id="effectFrequency" name="musicEffect" value="frequency">
+                                <label for="effectFrequency">周波数連動 <span class="effect-desc">(低音=赤、中音=緑、高音=青)</span></label>
+                            </div>
+                            <div class="effect-option">
+                                <input type="radio" id="effectMusicalScale" name="musicEffect" value="musicalScale">
+                                <label for="effectMusicalScale">音階連動 <span class="effect-desc">(ドレミファソラシで虹色に変化)</span></label>
+                            </div>
+                            <div class="effect-option">
+                                <input type="radio" id="effectBeat" name="musicEffect" value="beat">
+                                <label for="effectBeat">ビート検出 <span class="effect-desc">(ビートで虹色に変化)</span></label>
+                            </div>
+                            <div class="effect-option">
+                                <input type="radio" id="effectRainbow" name="musicEffect" value="rainbow">
+                                <label for="effectRainbow">レインボー <span class="effect-desc">(音量で虹色がスクロール)</span></label>
+                            </div>
+                        </div>
+
+                        <h3 id="baseColorLabel">ベースカラー</h3>
+                        <div class="music-color-preset" id="musicColorPreset">
+                            <button class="music-preset-color active" data-color="#ff0000" style="background-color: #ff0000;" title="赤"></button>
+                            <button class="music-preset-color" data-color="#ffa500" style="background-color: #ffa500;" title="オレンジ"></button>
+                            <button class="music-preset-color" data-color="#ffff00" style="background-color: #ffff00;" title="黄色"></button>
+                            <button class="music-preset-color" data-color="#00ff00" style="background-color: #00ff00;" title="緑"></button>
+                            <button class="music-preset-color" data-color="#0000ff" style="background-color: #0000ff;" title="青"></button>
+                            <button class="music-preset-color" data-color="#8000ff" style="background-color: #8000ff;" title="紫"></button>
+                            <button class="music-preset-color" data-color="#ff00ff" style="background-color: #ff00ff;" title="マゼンタ"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 共通コントロール -->
+                <div class="common-controls">
+                    <button id="clearBtn" class="btn btn-warning">全消灯</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="./script_multi.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then((registration) => {
+                        console.log('Service Worker 登録成功:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.error('Service Worker 登録失敗:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

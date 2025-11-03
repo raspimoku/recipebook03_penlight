@@ -1,0 +1,1256 @@
+/* リセットスタイル */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+    color: #333;
+    background: #f48fb1;
+    min-height: 100vh;
+}
+
+/* コンテナ */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 8px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ヘッダー */
+header {
+    text-align: center;
+    margin-bottom: 8px;
+    color: #92114a;
+}
+
+header h1 {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+}
+
+/* メインコンテンツ */
+main {
+    background: white;
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(146, 17, 74, 0.15);
+}
+
+/* セクション */
+section {
+    margin-bottom: 10px;
+}
+
+section h2 {
+    color: #92114a;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding-bottom: 4px;
+}
+
+section h3 {
+    color: #92114a;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+section h4 {
+    color: #c2185b;
+    margin-bottom: 5px;
+    font-size: 0.85rem;
+}
+
+/* 接続状態 */
+.connection-section {
+    margin-bottom: 8px;
+}
+
+.connection-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 12px;
+    background: #fce4ec;
+    border: 1px solid #f8bbd0;
+    border-radius: 8px;
+}
+
+.device-count {
+    color: #92114a;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.device-count strong {
+    color: #c2185b;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.connection-header .btn {
+    margin: 0;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    min-width: auto;
+}
+
+/* デバイス一覧 */
+.devices-section {
+    margin-bottom: 8px;
+}
+
+.devices-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.device-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: #fce4ec;
+    border: 1px solid #f8bbd0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.device-card:hover {
+    border-color: #f48fb1;
+    background: #f8bbd0;
+}
+
+.device-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.device-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #38a169;
+}
+
+.device-name {
+    font-weight: 600;
+    color: #92114a;
+    font-size: 0.9rem;
+}
+
+.device-group {
+    display: inline-block;
+    padding: 3px 8px;
+    background: #c2185b;
+    color: white;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.device-group.no-group {
+    background: #f48fb1;
+    color: #92114a;
+}
+
+.device-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.device-actions button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    min-width: auto;
+}
+
+/* カスタムセレクト */
+.custom-select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-select-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: white;
+    border: 1px solid #f8bbd0;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #92114a;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 110px;
+    font-weight: 500;
+}
+
+.custom-select-btn:hover {
+    border-color: #f48fb1;
+    background: #fce4ec;
+}
+
+.custom-select-btn:active {
+    transform: scale(0.98);
+}
+
+.select-text {
+    flex: 1;
+    text-align: left;
+    font-weight: 600;
+}
+
+.select-arrow {
+    font-size: 0.7rem;
+    transition: transform 0.25s ease;
+    color: #c2185b;
+    font-weight: bold;
+}
+
+.custom-select-wrapper.active .select-arrow {
+    transform: rotate(180deg);
+}
+
+.custom-select-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 100%;
+    background: white;
+    border: 1px solid #f8bbd0;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(146, 17, 74, 0.15);
+    z-index: 1000;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+.custom-select-dropdown.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.select-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-size: 0.8rem;
+    color: #92114a;
+    font-weight: 500;
+}
+
+.select-option:hover {
+    background: #fce4ec;
+    color: #c2185b;
+}
+
+.select-option:active {
+    background: #f8bbd0;
+    transform: scale(0.98);
+}
+
+/* 制御対象選択 */
+.target-selection {
+    margin-bottom: 8px;
+    padding: 10px;
+    background: #fce4ec;
+    border: 1px solid #f8bbd0;
+    border-radius: 8px;
+}
+
+.target-buttons {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.btn-target {
+    flex: 1;
+    background: white;
+    color: #92114a;
+    border: 1px solid #f8bbd0;
+    padding: 6px 8px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+}
+
+.btn-target.active {
+    background: linear-gradient(135deg, #c2185b 0%, #d81b60 100%);
+    color: white;
+    border-color: #c2185b;
+}
+
+.btn-target:hover {
+    background: #fff0f5;
+}
+
+.btn-target.active:hover {
+    background: linear-gradient(135deg, #ad1457 0%, #c2185b 100%);
+}
+
+.selection-panel {
+    margin-top: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+}
+
+.selection-panel label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #92114a;
+    font-size: 0.85rem;
+}
+
+.group-buttons, .individual-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.btn-group, .btn-individual {
+    padding: 6px 12px;
+    background: white;
+    color: #92114a;
+    border: 1px solid #f8bbd0;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.btn-group:hover, .btn-individual:hover {
+    background: #fce4ec;
+    border-color: #f48fb1;
+}
+
+.btn-group.active, .btn-individual.active {
+    background: linear-gradient(135deg, #c2185b 0%, #d81b60 100%);
+    color: white;
+    border-color: #c2185b;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* ボタン */
+.btn {
+    display: inline-block;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    text-align: center;
+    min-width: 80px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #c2185b 0%, #d81b60 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #ad1457 0%, #c2185b 100%);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #f48fb1;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #f06292;
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #c2185b 0%, #d81b60 100%);
+    color: white;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #ad1457 0%, #c2185b 100%);
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #d81b60 0%, #e91e63 100%);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #c2185b 0%, #d81b60 100%);
+    transform: translateY(-1px);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #f48fb1 0%, #f06292 100%);
+    color: white;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #f06292 0%, #ec407a 100%);
+    transform: translateY(-1px);
+}
+
+.btn-apply {
+    background: linear-gradient(135deg, #c2185b 0%, #d81b60 100%);
+    color: white;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.btn-apply:hover {
+    background: linear-gradient(135deg, #ad1457 0%, #c2185b 100%);
+    transform: translateY(-1px);
+}
+
+/* モード選択 */
+.mode-selection {
+    margin-bottom: 8px;
+    padding: 10px;
+    background: #fce4ec;
+    border: 1px solid #f8bbd0;
+    border-radius: 8px;
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 0;
+}
+
+.btn-mode {
+    flex: 1;
+    background: white;
+    color: #92114a;
+    border: 1px solid #f8bbd0;
+    padding: 6px 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.btn-mode.active {
+    background: linear-gradient(135deg, #c2185b 0%, #d81b60 100%);
+    color: white;
+    border-color: #c2185b;
+}
+
+.btn-mode:hover {
+    background: #fff0f5;
+}
+
+.btn-mode.active:hover {
+    background: linear-gradient(135deg, #ad1457 0%, #c2185b 100%);
+}
+
+/* 色選択モード */
+/* カラープレビュー */
+.color-preview-main {
+    width: 100%;
+    height: 70px;
+    border-radius: 8px;
+    border: 2px solid #f8bbd0;
+    box-shadow: 0 2px 8px rgba(146, 17, 74, 0.15);
+    background-color: #ff0000;
+    margin-bottom: 8px;
+    transition: all 0.2s ease;
+}
+
+.color-value-display {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+#colorValue {
+    font-family: 'Courier New', monospace;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #92114a;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: transparent;
+    border: none;
+    text-align: center;
+    width: 100%;
+    padding: 4px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+#colorValue:hover {
+    background: #fce4ec;
+}
+
+#colorValue:focus {
+    outline: none;
+    background: #fce4ec;
+    border: 1px solid #c2185b;
+    padding: 6px;
+}
+
+/* 色相スライダー */
+.hue-slider-container {
+    margin-bottom: 8px;
+    padding: 10px;
+    background: #fce4ec;
+    border-radius: 8px;
+    border: 1px solid #f8bbd0;
+}
+
+/* スライダーのスタイル */
+.color-slider {
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.color-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #c2185b;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(146, 17, 74, 0.3);
+    transition: all 0.2s ease;
+}
+
+.color-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 3px 10px rgba(194, 24, 91, 0.4);
+}
+
+.color-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #c2185b;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(146, 17, 74, 0.3);
+    transition: all 0.2s ease;
+}
+
+.color-slider::-moz-range-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 3px 10px rgba(194, 24, 91, 0.4);
+}
+
+/* 色相スライダー（レインボーグラデーション） */
+.hue-slider {
+    background: linear-gradient(to right,
+        #ff0000 0%,
+        #ffff00 17%,
+        #00ff00 33%,
+        #00ffff 50%,
+        #0000ff 67%,
+        #ff00ff 83%,
+        #ff0000 100%
+    );
+}
+
+/* プリセット色 */
+.preset-colors {
+    margin-bottom: 0;
+}
+
+.preset-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+}
+
+.preset-color {
+    width: 100%;
+    aspect-ratio: 1;
+    border: 2px solid #f8bbd0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(146, 17, 74, 0.1);
+}
+
+.preset-color:hover {
+    transform: scale(1.08);
+    box-shadow: 0 2px 8px rgba(146, 17, 74, 0.2);
+    border-color: #c2185b;
+}
+
+.preset-color:active {
+    transform: scale(0.95);
+}
+
+/* 自動制御モード */
+.pattern-selection {
+    margin-bottom: 8px;
+}
+
+.pattern-option {
+    margin-bottom: 5px;
+    padding: 7px 10px;
+    border: 1px solid #f8bbd0;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.pattern-option:hover {
+    border-color: #f48fb1;
+    background: #fce4ec;
+}
+
+.pattern-option input[type="radio"] {
+    margin-right: 8px;
+    transform: scale(1.1);
+    vertical-align: middle;
+    cursor: pointer;
+    accent-color: #c2185b;
+}
+
+.pattern-option label {
+    cursor: pointer;
+    display: inline;
+    color: #92114a;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.pattern-desc {
+    font-size: 0.8rem;
+    color: #f48fb1;
+}
+
+.pattern-option:has(input[type="radio"]:checked) {
+    border-color: #c2185b;
+    background: #fce4ec;
+    border-width: 2px;
+}
+
+/* コントロール */
+.auto-controls {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 0;
+}
+
+.auto-controls .btn {
+    flex: 1;
+}
+
+.common-controls {
+    text-align: center;
+    padding-top: 8px;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    main {
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    section h2 {
+        font-size: 1.3rem;
+    }
+
+    section h3 {
+        font-size: 1.1rem;
+    }
+
+    /* デバイスカード */
+    .device-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .device-info {
+        width: 100%;
+    }
+
+    .device-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    /* 制御対象ボタン */
+    .target-buttons {
+        gap: 6px;
+    }
+
+    .btn-target {
+        font-size: 0.85rem;
+        padding: 10px 6px;
+        min-width: auto;
+    }
+
+    /* カラープレビュー */
+    .color-preview-main {
+        height: 120px;
+    }
+
+    #colorValue {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+        padding: 6px;
+    }
+
+    #colorValue:focus {
+        padding: 4px;
+    }
+
+    /* プリセット色 */
+    .preset-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+    }
+
+    .preset-color {
+        width: 100%;
+        height: 0;
+        padding-bottom: 100%;
+        position: relative;
+    }
+
+    /* ボタン */
+    .btn {
+        min-width: auto;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 8px;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    header {
+        margin-bottom: 20px;
+    }
+
+    header h1 {
+        font-size: 1.75rem;
+    }
+
+    header p {
+        font-size: 0.9rem;
+    }
+
+    section {
+        margin-bottom: 20px;
+    }
+
+    section h2 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    /* 接続状態 */
+    .status-summary {
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    .device-count strong {
+        font-size: 1.2rem;
+    }
+
+    /* デバイスカード */
+    .device-card {
+        padding: 12px;
+    }
+
+    .device-name {
+        font-size: 0.9rem;
+    }
+
+    .device-group {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+    }
+
+    .device-actions button {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+
+    .custom-select-btn {
+        padding: 6px 10px;
+        min-width: 100px;
+        font-size: 0.8rem;
+    }
+
+    /* 制御対象選択 */
+    .target-selection {
+        padding: 12px;
+    }
+
+    .target-buttons {
+        gap: 6px;
+    }
+
+    .btn-target {
+        padding: 10px 4px;
+        font-size: 0.8rem;
+    }
+
+    .selection-panel {
+        padding: 12px;
+    }
+
+    /* モード切り替え */
+    .mode-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-mode {
+        width: 100%;
+    }
+
+    /* カラープレビュー */
+    .color-preview-main {
+        height: 100px;
+    }
+
+    #colorValue {
+        font-size: 1.3rem;
+        padding: 5px;
+    }
+
+    #colorValue:focus {
+        padding: 3px;
+    }
+
+    /* プリセット色 */
+    .preset-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+    }
+
+    /* 自動制御 */
+    .pattern-option {
+        padding: 12px;
+    }
+
+    .pattern-name {
+        font-size: 0.95rem;
+    }
+
+    .pattern-desc {
+        font-size: 0.8rem;
+    }
+
+    .auto-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .auto-controls .btn {
+        width: 100%;
+    }
+
+    /* ボタン */
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: auto;
+    }
+
+    /* フッター */
+    footer {
+        margin-top: 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* 超小型スマートフォン対応 */
+@media (max-width: 360px) {
+    body {
+        font-size: 13px;
+    }
+
+    .container {
+        padding: 5px;
+    }
+
+    main {
+        padding: 12px;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    /* 制御対象ボタン - より小さく */
+    .target-buttons {
+        gap: 4px;
+    }
+
+    .btn-target {
+        padding: 8px 2px;
+        font-size: 0.75rem;
+        min-width: 0;
+    }
+
+    /* ボタン全般を小さく */
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+
+    /* デバイスカード */
+    .device-card {
+        padding: 10px;
+    }
+
+    .device-actions button {
+        padding: 5px 8px;
+        font-size: 0.75rem;
+    }
+
+    .custom-select-btn {
+        padding: 5px 8px;
+        min-width: 90px;
+        font-size: 0.75rem;
+    }
+
+    /* カラープレビュー */
+    .color-preview-main {
+        height: 80px;
+    }
+
+    #colorValue {
+        font-size: 1.1rem;
+        padding: 4px;
+    }
+
+    #colorValue:focus {
+        padding: 2px;
+    }
+}
+
+/* アニメーション */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ローディング */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    to { left: 100%; }
+}
+
+/* 音楽連動モード */
+.music-mode {
+    padding: 10px;
+    background: #fce4ec;
+    border-radius: 8px;
+    border: 1px solid #f8bbd0;
+}
+
+.music-info {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+}
+
+.music-info p {
+    margin: 4px 0;
+    color: #92114a;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.music-note {
+    color: #f48fb1;
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.music-controls {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.music-controls .btn {
+    flex: 1;
+}
+
+.music-settings {
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+}
+
+.music-settings h3 {
+    margin-top: 10px;
+}
+
+.music-settings h3:first-child {
+    margin-top: 0;
+}
+
+/* 音量メーター */
+.volume-meter {
+    width: 100%;
+    height: 30px;
+    background: #fce4ec;
+    border: 2px solid #f8bbd0;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.volume-bar {
+    height: 100%;
+    background: linear-gradient(135deg, #c2185b 0%, #d81b60 50%, #f48fb1 100%);
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 10px rgba(194, 24, 91, 0.5);
+}
+
+/* 感度調整スライダー */
+.sensitivity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.sensitivity-slider {
+    flex: 1;
+    height: 8px;
+    border-radius: 4px;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background: linear-gradient(to right, #f8bbd0, #c2185b);
+}
+
+.sensitivity-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #c2185b;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(146, 17, 74, 0.3);
+    transition: all 0.2s ease;
+}
+
+.sensitivity-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(194, 24, 91, 0.4);
+}
+
+.sensitivity-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #c2185b;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(146, 17, 74, 0.3);
+    transition: all 0.2s ease;
+}
+
+.sensitivity-slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(194, 24, 91, 0.4);
+}
+
+#sensitivityValue {
+    font-weight: 700;
+    color: #c2185b;
+    font-size: 1rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* 音楽モード用カラープリセット */
+.music-color-preset {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.music-preset-color {
+    width: 100%;
+    aspect-ratio: 1;
+    border: 2px solid #f8bbd0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(146, 17, 74, 0.1);
+}
+
+.music-preset-color:hover {
+    transform: scale(1.08);
+    box-shadow: 0 2px 8px rgba(146, 17, 74, 0.2);
+    border-color: #c2185b;
+}
+
+.music-preset-color.active {
+    border-color: #c2185b;
+    border-width: 3px;
+    box-shadow: 0 0 0 2px rgba(194, 24, 91, 0.3);
+}
+
+.music-preset-color:active {
+    transform: scale(0.95);
+}
+
+/* エフェクトモード選択 */
+.music-effect-mode {
+    margin-bottom: 10px;
+}
+
+.effect-option {
+    margin-bottom: 8px;
+    padding: 8px;
+    background: #fce4ec;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.effect-option:hover {
+    border-color: #f8bbd0;
+}
+
+.effect-option input[type="radio"] {
+    margin-right: 8px;
+    cursor: pointer;
+    accent-color: #c2185b;
+}
+
+.effect-option label {
+    cursor: pointer;
+    color: #92114a;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    font-weight: 500;
+}
+
+.effect-desc {
+    color: #f48fb1;
+    font-size: 0.75rem;
+    font-style: italic;
+    margin-left: 5px;
+}
+
+.effect-option:has(input[type="radio"]:checked) {
+    background: white;
+    border-color: #c2185b;
+}
+
+.effect-option:has(input[type="radio"]:checked) label {
+    font-weight: 600;
+}
+
+@media (max-width: 480px) {
+    .music-color-preset {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+
+    .volume-meter {
+        height: 40px;
+    }
+
+    .effect-desc {
+        width: 100%;
+        margin-left: 20px;
+        margin-top: 2px;
+    }
+}
