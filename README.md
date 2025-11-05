@@ -230,6 +230,9 @@ recipebook03_penlight/
 │   ├── script_multi.js     # JavaScript
 │   ├── service-worker.js   # Service Worker（PWA対応）
 │   └── manifest.json       # PWAマニフェスト
+├── examples/            # 紙面で紹介した動作確認用のコード
+│   ├── led-test/           # フルカラーLED動作確認用
+│   └── ble-test/           # BLE動作確認用
 └── README.md               # このファイル
 ```
 
