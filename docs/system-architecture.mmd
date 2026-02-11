@@ -1,0 +1,49 @@
+graph TB
+    subgraph UserDevice["👤 ユーザーデバイス (スマートフォン / PC)"]
+        subgraph Browser["🌐 Web ブラウザ (Chrome / Edge / Opera)"]
+            subgraph PWA["PWA Web アプリケーション"]
+                HTML["index.html<br/>UI / カラーピッカー"]
+                CSS["style.css<br/>スタイリング"]
+                JS["script_multi.js<br/>メインロジック"]
+                Manifest["manifest.json<br/>PWA マニフェスト"]
+                SW["service-worker.js<br/>オフライン対応 (Cache First)"]
+                WebBT["Web Bluetooth API<br/>BLE 通信"]
+                WebAudio["Web Audio API<br/>音声解析 (FFT 2048)"]
+            end
+        end
+        Mic["🎤 マイク"]
+    end
+
+    subgraph Hosting["📡 ホスティング"]
+        GHPages["GitHub Pages<br/>本番環境 (HTTPS)"]
+        DevServer["server.py<br/>HTTPS 開発サーバー<br/>localhost:8000"]
+    end
+
+    subgraph PicoW["🔧 Raspberry Pi Pico W"]
+        subgraph MicroPython["MicroPython v1.23.0+"]
+            MainPy["main.py<br/>メインプログラム"]
+            BLEService["BLE サービス<br/>アドバタイズ & 接続管理<br/>デバイス名: Colorlight-X"]
+            CmdHandler["コマンドハンドラ<br/>AUTO:1/2/3, STOP, CLEAR"]
+            AutoCtrl["自動制御エンジン<br/>パターン1: 順次変化<br/>パターン2: 点滅<br/>パターン3: 虹色グラデーション"]
+            NeoPixelDrv["NeoPixel ドライバ<br/>WS2812B 制御 (GPIO6)"]
+        end
+    end
+
+    LED["💡 NeoPixel LED<br/>WS2812B 互換<br/>フルカラーシリアルLED"]
+    Power["🔋 電源<br/>USB / モバイルバッテリー (5V)"]
+
+    JS --> WebBT
+    JS --> WebAudio
+    WebAudio --> Mic
+    GHPages -->|HTTPS| Browser
+    DevServer -.->|HTTPS 開発用| Browser
+
+    WebBT <-->|"BLE<br/>RGB 3バイト / UTF-8 コマンド<br/>UUID: 12345678-...-9abc"| BLEService
+
+    MainPy --> BLEService
+    BLEService --> CmdHandler
+    CmdHandler --> NeoPixelDrv
+    CmdHandler --> AutoCtrl
+    AutoCtrl --> NeoPixelDrv
+    NeoPixelDrv -->|GPIO6| LED
+    Power -->|USB| PicoW
