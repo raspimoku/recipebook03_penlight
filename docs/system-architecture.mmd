@@ -16,13 +16,13 @@ graph TB
 
     subgraph Hosting["📡 ホスティング"]
         GHPages["GitHub Pages<br/>本番環境 (HTTPS)"]
-        DevServer["server.py<br/>HTTPS 開発サーバー<br/>localhost:8000"]
+        DevServer["server.py<br/>HTTP 開発サーバー<br/>localhost:8000"]
     end
 
     subgraph PicoW["🔧 Raspberry Pi Pico W"]
         subgraph MicroPython["MicroPython v1.23.0+"]
             MainPy["main.py<br/>メインプログラム"]
-            BLEService["BLE サービス<br/>アドバタイズ & 接続管理<br/>デバイス名: Colorlight-X"]
+            BLEService["BLE サービス<br/>アドバタイズ & 接続管理<br/>デバイス名: Colorlight-X<br/>色、コマンド制御"]
             CmdHandler["コマンドハンドラ<br/>AUTO:1/2/3, STOP, CLEAR"]
             AutoCtrl["自動制御エンジン<br/>パターン1: 順次変化<br/>パターン2: 点滅<br/>パターン3: 虹色グラデーション"]
             NeoPixelDrv["NeoPixel ドライバ<br/>WS2812B 制御 (GPIO6)"]
@@ -30,13 +30,13 @@ graph TB
     end
 
     LED["💡 NeoPixel LED<br/>WS2812B 互換<br/>フルカラーシリアルLED"]
-    Power["🔋 電源<br/>USB / モバイルバッテリー (5V)"]
+    Power["🔋 電源<br/>USBモバイルバッテリー (5V)<br/>乾電池"]
 
     JS --> WebBT
     JS --> WebAudio
     WebAudio --> Mic
     GHPages -->|HTTPS| Browser
-    DevServer -.->|HTTPS 開発用| Browser
+    DevServer -.->|HTTP 開発用| Browser
 
     WebBT <-->|"BLE<br/>RGB 3バイト / UTF-8 コマンド<br/>UUID: 12345678-...-9abc"| BLEService
 
