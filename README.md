@@ -85,46 +85,20 @@ LEDテープをRaspberry Pi Pico Wに以下のように接続：
 
 #### ローカル開発環境での実行
 
-カスタマイズや開発を行う場合は、ローカル環境でHTTPSサーバーを起動します。
+カスタマイズや開発を行う場合は、ローカル環境でHTTPサーバーを起動します。
 
-Web Bluetooth APIはHTTPS環境が必須のため、`server.py`を使用してHTTPSサーバーを起動します。
-
-**1. 自己署名証明書の生成**
+**1. HTTPサーバーの起動**
 
 ```bash
 cd app
-openssl req -x509 -newkey rsa:2048 -nodes \
-  -keyout key.pem -out cert.pem -days 365 \
-  -subj '/CN=localhost'
+python -m http.server 8000
 ```
 
-実行すると `cert.pem`（証明書）と `key.pem`（秘密鍵）が生成されます。
+**2. ブラウザでアクセス**
 
-**2. HTTPSサーバーの起動**
+ブラウザで `http://127.0.0.1:8000/` にアクセス
 
-```bash
-python server.py
-```
-
-以下のように表示されます：
-
-```
-HTTPSサーバーを起動しました
-アクセスURL: https://localhost:8000
-
-注意: 自己署名証明書のため、ブラウザで警告が表示されます
-      「詳細設定」→「localhost にアクセスする（安全ではありません）」を選択してください
-```
-
-**3. ブラウザでアクセス**
-
-1. ブラウザで `https://localhost:8000` にアクセス
-2. 証明書の警告が表示されるので、以下の手順で進む：
-   - **Chrome/Edge**: 「詳細設定」→「localhost にアクセスする（安全ではありません）」
-   - **Firefox**: 「詳細を表示」→「例外を追加」→「セキュリティ例外を承認」
-3. Webアプリが表示される
-
-> **注意**: 証明書は1年間有効です。期限切れの場合は、手順1から再度証明書を生成してください。
+> **注意**: Web Bluetooth APIは通常HTTPS環境が必須ですが、`localhost`や`127.0.0.1`の場合はHTTPでも動作します（セキュアコンテキストとして扱われるため）。
 
 #### PWAとしてインストール
 
@@ -137,7 +111,6 @@ HTTPSサーバーを起動しました
 **ブラウザの開発者ツール**
 
 - **Chrome/Edge**: `F12` または 右クリック → 「検証」
-- **Firefox**: `F12` または 右クリック → 「要素を調査」
 
 **確認すべき項目**:
 
@@ -259,9 +232,11 @@ recipebook03_penlight/
 │   ├── index.html          # HTML
 │   ├── style.css           # CSS
 │   ├── script_multi.js     # JavaScript
-│   ├── server.py           # HTTPS開発サーバー
 │   ├── service-worker.js   # Service Worker（PWA対応）
 │   └── manifest.json       # PWAマニフェスト
+├── examples/            # 紙面で紹介した動作確認用のコード
+│   ├── led-test/           # フルカラーLED動作確認用
+│   └── ble-test/           # BLE動作確認用
 └── README.md               # このファイル
 ```
 
